@@ -6,10 +6,12 @@ import { lifecycleMixin } from './lifecycle'
 import { warn } from '../util/index'
 import type { GlobalAPI } from 'types/global-api'
 
+// 执行new Vue(options)
 function Vue(options) {
   if (__DEV__ && !(this instanceof Vue)) {
     warn('Vue is a constructor and should be called with the `new` keyword')
   }
+  // initMixin中的_init方法
   this._init(options)
 }
 
