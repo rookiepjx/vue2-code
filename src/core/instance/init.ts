@@ -38,6 +38,7 @@ export function initMixin(Vue: typeof Component) {
     // render of a parent component
     vm._scope.parent = undefined
     vm._scope._vm = true
+    // 合并options
     // merge options
     if (options && options._isComponent) {
       // optimize internal component instantiation
@@ -59,13 +60,21 @@ export function initMixin(Vue: typeof Component) {
     }
     // expose real self
     vm._self = vm
+    // 初始化生命周期函数
     initLifecycle(vm)
+    // 初始化事件中心
     initEvents(vm)
+    // 初始化渲染
     initRender(vm)
+    // 调用beforeCreate生命周期函数
     callHook(vm, 'beforeCreate', undefined, false /* setContext */)
+    // 在data和props之前初始化injections
     initInjections(vm) // resolve injections before data/props
+    // 按顺序依次初始化props => initSetup(如果有setup语法) => methods => data => computed => watch
     initState(vm)
+    // 在data和props之后初始化provide
     initProvide(vm) // resolve provide after data/props
+    // 调用created生命周期函数
     callHook(vm, 'created')
 
     /* istanbul ignore if */
@@ -75,6 +84,7 @@ export function initMixin(Vue: typeof Component) {
       measure(`vue ${vm._name} init`, startTag, endTag)
     }
 
+    // 如果指定了挂载节点，执行$mount方法
     if (vm.$options.el) {
       vm.$mount(vm.$options.el)
     }
