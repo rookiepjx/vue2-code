@@ -67,6 +67,7 @@ export function initMixin(Vue: typeof Component) {
     // 初始化渲染
     initRender(vm)
     // 调用beforeCreate生命周期函数
+    // beforeCreate生命周期函数在initState之前执行，所以在beforeCreate中无法读取到data、props等属性
     callHook(vm, 'beforeCreate', undefined, false /* setContext */)
     // 在data和props之前初始化injections
     initInjections(vm) // resolve injections before data/props
@@ -75,6 +76,8 @@ export function initMixin(Vue: typeof Component) {
     // 在data和props之后初始化provide
     initProvide(vm) // resolve provide after data/props
     // 调用created生命周期函数
+    // created生命周期函数在initState之后执行，所以这时候可以读取读取到data、props等属性。
+    // 但是又是在mount方法执行之前，所以不能获取到dom元素
     callHook(vm, 'created')
 
     /* istanbul ignore if */

@@ -52,7 +52,8 @@ export function proxy(target: Object, sourceKey: string, key: string) {
 export function initState(vm: Component) {
   const opts = vm.$options
   if (opts.props) initProps(vm, opts.props)
-
+  
+  // 兼容组合式API的setup语法
   // Composition API
   initSetup(vm)
 
