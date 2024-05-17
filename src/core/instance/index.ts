@@ -16,14 +16,19 @@ function Vue(options) {
 }
 
 //@ts-expect-error Vue has function type
+// 定义_init方法
 initMixin(Vue)
 //@ts-expect-error Vue has function type
+// 定义 $set $get $delete $watch
 stateMixin(Vue)
 //@ts-expect-error Vue has function type
+// 定义 $on $once $off $emit
 eventsMixin(Vue)
 //@ts-expect-error Vue has function type
+// 定义 _update $forceUpdate $destroy
 lifecycleMixin(Vue)
 //@ts-expect-error Vue has function type
+// 定义 nextTick render函数返回虚拟dom 
 renderMixin(Vue)
 
 export default Vue as unknown as GlobalAPI

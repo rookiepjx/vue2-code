@@ -158,6 +158,7 @@ function initData(vm: Component) {
           vm
         )
     } else if (!isReserved(key)) {
+      // 使用proxy对data进行劫持
       proxy(vm, `_data`, key)
     }
   }

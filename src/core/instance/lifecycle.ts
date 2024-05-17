@@ -144,6 +144,7 @@ export function lifecycleMixin(Vue: typeof Component) {
   }
 }
 
+// 执行$mount时调用mountComponent
 export function mountComponent(
   vm: Component,
   el: Element | null | undefined,
@@ -174,8 +175,10 @@ export function mountComponent(
       }
     }
   }
+  // 调用beforeMount生命周期函数
   callHook(vm, 'beforeMount')
 
+  // 定义更新函数
   let updateComponent
   /* istanbul ignore if */
   if (__DEV__ && config.performance && mark) {
@@ -197,6 +200,7 @@ export function mountComponent(
     }
   } else {
     updateComponent = () => {
+      // 实际调用在lifeCycleMixin中定义的_update和renderMixin中定义的_render
       vm._update(vm._render(), hydrating)
     }
   }
@@ -204,6 +208,7 @@ export function mountComponent(
   const watcherOptions: WatcherOptions = {
     before() {
       if (vm._isMounted && !vm._isDestroyed) {
+        // 组件变化触发beforeUpdate
         callHook(vm, 'beforeUpdate')
       }
     }
@@ -217,6 +222,7 @@ export function mountComponent(
   // we set this to vm._watcher inside the watcher's constructor
   // since the watcher's initial patch may call $forceUpdate (e.g. inside child
   // component's mounted hook), which relies on vm._watcher being already defined
+  // 监听当前组件状态，当数据变化时，更新组件
   new Watcher(
     vm,
     updateComponent,
@@ -238,6 +244,7 @@ export function mountComponent(
   // mounted is called for render-created child components in its inserted hook
   if (vm.$vnode == null) {
     vm._isMounted = true
+    // 挂载完毕执行mounted
     callHook(vm, 'mounted')
   }
   return vm

@@ -71,7 +71,7 @@ export function initMixin(Vue: typeof Component) {
     callHook(vm, 'beforeCreate', undefined, false /* setContext */)
     // 在data和props之前初始化injections
     initInjections(vm) // resolve injections before data/props
-    // 按顺序依次初始化props => initSetup(如果有setup语法) => methods => data => computed => watch
+    // 按顺序依次初始化props => initSetup(如果有setup语法) => methods => data(proxy劫持) => computed => watch
     initState(vm)
     // 在data和props之后初始化provide
     initProvide(vm) // resolve provide after data/props

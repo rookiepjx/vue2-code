@@ -22,8 +22,10 @@ Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
 ): Component {
+  // 查找挂载的目标元素
   el = el && query(el)
 
+  // 不允许直接挂载到body或者documentElement页面文档上
   /* istanbul ignore if */
   if (el === document.body || el === document.documentElement) {
     __DEV__ &&
@@ -37,6 +39,7 @@ Vue.prototype.$mount = function (
   // resolve template/el and convert to render function
   if (!options.render) {
     let template = options.template
+    // 如果有template页面模板,解析vue模板文件
     if (template) {
       if (typeof template === 'string') {
         if (template.charAt(0) === '#') {
@@ -67,6 +70,9 @@ Vue.prototype.$mount = function (
         mark('compile')
       }
 
+      // 1.将页面模板解析编译成ast tree
+      // 2.将ast tree转换成render语法字符串
+      // 3.生成render方法
       const { render, staticRenderFns } = compileToFunctions(
         template,
         {
@@ -88,6 +94,7 @@ Vue.prototype.$mount = function (
       }
     }
   }
+  // 执行mount方法
   return mount.call(this, el, hydrating)
 }
 
